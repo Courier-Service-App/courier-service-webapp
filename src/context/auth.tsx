@@ -1,4 +1,4 @@
-import { Dispatch, ReactElement, ReactNode, Reducer, createContext, useReducer, useState } from "react";
+import { Dispatch, ReactElement, ReactNode, Reducer, createContext, useReducer } from "react";
 import { User } from "../types";
 
 export const ACTIONS = {
@@ -25,10 +25,8 @@ export type DispatchType = Dispatch<ActionType>;
 type ReduceType = Reducer<StateType, ActionType>;
 
 type ContextType = {
-    auth: any,
     authState: StateType,
-    dispatch: DispatchType,
-    setAuth: Dispatch<React.SetStateAction<{}>>
+    dispatch: DispatchType
 };
 
 type PropsType = {
@@ -42,11 +40,10 @@ const initialState: StateType = {
     token: undefined
 };
 
-export const authContext = createContext<ContextType>({ authState: initialState, dispatch: () => null, auth: {}, setAuth: () => {} });
+export const authContext = createContext<ContextType>({ authState: initialState, dispatch: () => null });
 const { Provider } = authContext;
 
 export const AuthProvider = ({ children }: PropsType): ReactElement => {
-    const [auth, setAuth] = useState({});
     const [authState, dispatch] = useReducer<ReduceType>((state: StateType, action: ActionType): StateType => {
         const { type, payload } = action;
         switch (type) {
@@ -63,6 +60,6 @@ export const AuthProvider = ({ children }: PropsType): ReactElement => {
         }
     }, initialState);
 
-    return <Provider value={{ authState, dispatch, auth, setAuth }}>{children}</Provider>;
+    return <Provider value={{ authState, dispatch }}>{children}</Provider>;
 };
 
