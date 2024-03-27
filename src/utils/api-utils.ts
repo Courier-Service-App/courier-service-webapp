@@ -35,6 +35,27 @@ export const postApi = async <T>(path: string, body: KeyValues={}): Promise<T> =
         }
         else {
             throw 'Unknown error'
+        }        
+    }
+}
+
+export const putApi = async <T>(path: string, body: KeyValues={}): Promise<T> => {
+    const token = await getSessionToken();    
+    try {
+        const res = await api.put(path, body, {
+            headers: {
+                Authorization: token
+            }
+        });
+        return res.data;  
+    }
+    catch(error: any) {
+        console.error(error);
+        if (error?.response?.data) {
+            throw error.response.data;
+        }
+        else {
+            throw 'Unknown error'
         }
         
     }

@@ -30,7 +30,17 @@ export type RegistrationProps = {
 }
 
 export type Shipment = {
+    shipment_id: string,
+    sender_name: string,
+    sender_address: string,
     recipient_name: string,
+    recipient_address: string,
+    details: string,
+    status: string,
+    tracking_number: string,
+}
+
+export type SaveShipment = {
     senderName: string,
     senderAddress: string,
     recipientName: string,

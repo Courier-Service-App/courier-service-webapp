@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Button, Form, Input } from 'antd';
 import { GENERAL_ROUTES, ROUTES } from '../../../routes/constants';
-import { Shipment } from '../../../types';
+import { SaveShipment } from '../../../types';
 import { createShipment } from './actions';
 import { SHIPMENT_STATUS } from '../../../constants';
 import useAuth from '../../../hooks/useAuth';
@@ -12,7 +12,7 @@ export default function CreateShipment () {
     const { user } = authState;
     const [form] = Form.useForm();
 
-    const handleCreate = async (shipment: Shipment) => {        
+    const handleCreate = async (shipment: SaveShipment) => {        
         const { user_id } = user;
         shipment.userId = user_id;
         shipment.status = SHIPMENT_STATUS.INIT;

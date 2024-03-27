@@ -1,8 +1,8 @@
 import { message } from 'antd';
-import { Shipment } from '../../../types';
+import { SaveShipment } from '../../../types';
 import { postApi } from '../../../utils';
 
-export const createShipment = async (data: Shipment) => {
+export const createShipment = async (data: SaveShipment) => {
     try {
         message.loading("Please wait...");
         await postApi('/shipments/create-shipment', data);

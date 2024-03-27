@@ -4,7 +4,8 @@ import { Button, Form, Input, message } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { userSignIn } from './actions';
 import useAuth from '../../hooks/useAuth';
-import { GENERAL_ROUTES } from '../../routes/constants';
+import { ADMIN_ROUTES, GENERAL_ROUTES, ROUTES } from '../../routes/constants';
+import { USER_ROLES } from '../../constants';
 
 type LoginProps = {
     email: string;
@@ -13,18 +14,24 @@ type LoginProps = {
 
 export default function Login() {
     const [loading, setLoading] = useState<boolean>(false);
-    const { dispatch } = useAuth();
+    const { dispatch, authState } = useAuth();
     const navigate = useNavigate();
 
     const handleLogin = async ({ email, password }: LoginProps) => {
         setLoading(true);
         message.loading('Please wait...', 10);
         const { isSignedIn, response } = await userSignIn(email, password, dispatch);
+        const { role } = authState;
 
         if (isSignedIn) {
             message.destroy();
             message.success(response);
-            navigate(`/general/${GENERAL_ROUTES.DASHBOARD}`);
+            if (role === USER_ROLES.ADMIN) {
+                navigate(`${ROUTES.ADMIN}/${ADMIN_ROUTES.DASHBOARD}`);
+            }
+            else if (role === USER_ROLES.GENERAL) {
+                navigate(`${ROUTES.GENERAL}/${GENERAL_ROUTES.DASHBOARD}`);
+            }
         }
         else {
             message.destroy();
