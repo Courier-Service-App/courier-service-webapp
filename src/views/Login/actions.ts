@@ -1,24 +1,13 @@
 import { ACTIONS, DispatchType } from '../../context/auth';
-import { postApi } from '../../utils';
-
-export const initialData = async (data: any, dispatch: DispatchType) => {
-    try {
-        dispatch({ type: ACTIONS.LOADING, payload: false });
-        dispatch({ type: ACTIONS.AUTHENTICATED, payload: true });
-        dispatch({ type: ACTIONS.USER_SIGNED_IN, payload: data.user });
-        dispatch({ type: ACTIONS.AUTH_TOKEN, payload: data.token });
-
-    }
-    catch (error: any) {
-        console.log(error);
-        throw error;
-    }
-} 
+import { initialData, postApi, removeSessionToken, setSessionToken } from '../../utils';
+import { message } from 'antd';
+import { LoginResponse } from '../../types';
 
 export const userSignIn = async (email: string, password: string, dispatch: DispatchType) => {
     try {
-        const response = await postApi('/authenticate', { email, password });
-        initialData(response, dispatch);
+        const { token } = await postApi<LoginResponse>('/authenticate', { email, password });
+        await setSessionToken(token);
+        await initialData(token, dispatch);
         return {
             response: 'Login success',
             isSignedIn: true
@@ -26,9 +15,24 @@ export const userSignIn = async (email: string, password: string, dispatch: Disp
     }
     catch (error: any) {
         console.log(error);
+        message.destroy();
         return {
             response: error.message,
             isSignedIn: false
         }
+    }
+}
+
+export const userSignOut = async (dispatch: DispatchType): Promise<void> => {
+    try {
+        await removeSessionToken();
+        dispatch({ type: ACTIONS.AUTHENTICATED, payload: false });
+        dispatch({ type: ACTIONS.LOADING, payload: true });
+        dispatch({ type: ACTIONS.USER_SIGNED_IN, payload: undefined });
+        dispatch({ type: ACTIONS.ROLE, payload: undefined });  
+    }
+    catch (error: any) {
+        console.log(error);
+        throw error;
     }
 }

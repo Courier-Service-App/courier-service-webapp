@@ -1,4 +1,3 @@
-export const ROUTES = {
-    LOGIN: '/login',
-    DASHBOARD: '/dashboard'
-};
+export const SHIPMENT_STATUS = {
+    INIT: 'INIT'
+}

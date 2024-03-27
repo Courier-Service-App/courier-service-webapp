@@ -5,14 +5,15 @@ export const ACTIONS = {
     USER_SIGNED_IN: 'user_signed_in',
     LOADING: 'loading',
     AUTHENTICATED: 'authenticated',
-    AUTH_TOKEN: 'token'
+    ROLE: 'user_role'
 };
 
 type StateType = {
     user: User | any,
     loading: boolean,
     authenticated: boolean,
-    token: string | undefined
+    token: string | undefined,
+    role: string | undefined
 };
 
 export type ActionType = {
@@ -26,7 +27,7 @@ type ReduceType = Reducer<StateType, ActionType>;
 
 type ContextType = {
     authState: StateType,
-    dispatch: DispatchType
+    dispatch: DispatchType,
 };
 
 type PropsType = {
@@ -37,7 +38,8 @@ const initialState: StateType = {
     user: undefined,
     loading: true,
     authenticated: false,
-    token: undefined
+    token: undefined,
+    role: undefined
 };
 
 export const authContext = createContext<ContextType>({ authState: initialState, dispatch: () => null });
@@ -53,8 +55,8 @@ export const AuthProvider = ({ children }: PropsType): ReactElement => {
                 return { ...state, loading: payload };
             case ACTIONS.AUTHENTICATED:
                 return { ...state, authenticated: payload };
-            case ACTIONS.AUTH_TOKEN:
-                return { ...state, token: payload };
+            case ACTIONS.ROLE:
+                return { ...state, role: payload };
             default:
                 return state;
         }

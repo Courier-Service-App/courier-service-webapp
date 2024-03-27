@@ -1,17 +1,11 @@
 import axios from "axios";
 import { KeyValues } from "../types";
 import { ApiConfig } from "../configs/configs";
+import { getSessionToken } from "./auth-utils";
 
-
-const api = axios.create({
+export const api = axios.create({
     baseURL: ApiConfig.basePath
 });
-
-
-const getSessionToken = async (): Promise<string> => {
-    // const session = await Auth.currentSession();
-    return '';
-}
 
 export const getApi = async <T>(path: string, params: KeyValues = {}): Promise<T> => {
     const token = await getSessionToken();
@@ -36,6 +30,12 @@ export const postApi = async <T>(path: string, body: KeyValues={}): Promise<T> =
     }
     catch(error: any) {
         console.error(error);
-        throw error.response.data;
+        if (error?.response?.data) {
+            throw error.response.data;
+        }
+        else {
+            throw 'Unknown error'
+        }
+        
     }
 }

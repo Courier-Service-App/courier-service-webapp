@@ -1,0 +1,10 @@
+.shipment-list {
+    overflow-y: scroll;
+    padding-inline: 20pt;
+    width: 500pt !important;
+
+    &::-webkit-scrollbar {
+        display: none;  
+    }
+}
+

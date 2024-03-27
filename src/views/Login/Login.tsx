@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Form, Input, message } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { authContext } from '../../context/auth';
-import { ROUTES } from '../../constants';
 import { userSignIn } from './actions';
+import useAuth from '../../hooks/useAuth';
+import { GENERAL_ROUTES } from '../../routes/constants';
 
 type LoginProps = {
     email: string;
@@ -13,7 +13,7 @@ type LoginProps = {
 
 export default function Login() {
     const [loading, setLoading] = useState<boolean>(false);
-    const { dispatch } = useContext(authContext);
+    const { dispatch } = useAuth();
     const navigate = useNavigate();
 
     const handleLogin = async ({ email, password }: LoginProps) => {
@@ -24,7 +24,7 @@ export default function Login() {
         if (isSignedIn) {
             message.destroy();
             message.success(response);
-            // navigate(ROUTES.DASHBOARD);
+            navigate(`/general/${GENERAL_ROUTES.DASHBOARD}`);
         }
         else {
             message.destroy();
@@ -45,7 +45,7 @@ export default function Login() {
                             <Input type='password' prefix={<LockOutlined />} placeholder='Password' />
                         </Form.Item>
                         <Form.Item>
-                            <Button className='full-width login-button' type='primary' htmlType='submit'>Log in</Button>
+                            <Button className='full-width login-button' loading={loading} type='primary' htmlType='submit'>Log in</Button>
                         </Form.Item>
                     </Form>
                 </div>
