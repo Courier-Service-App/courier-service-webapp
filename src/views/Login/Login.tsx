@@ -19,7 +19,7 @@ export default function Login() {
 
     const handleLogin = async ({ email, password }: LoginProps) => {
         setLoading(true);
-        message.loading('Please wait...', 10);
+        message.loading('Please wait...');
         const { isSignedIn, response, role } = await userSignIn(email, password, dispatch);
 
         if (isSignedIn) {

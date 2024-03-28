@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { Layout } from 'antd';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { GENERAL_ROUTES, ROUTES } from '../../routes/constants';
 import { Dashboard } from './Dashboard';
 import Menu from '../../components/Menu/Menu';
@@ -31,6 +31,7 @@ export default function GeneralView() {
                 <Routes>
                     <Route path={GENERAL_ROUTES.DASHBOARD}  element={<Dashboard />} />
                     <Route path={GENERAL_ROUTES.CREATE_SHIPMENT}  element={<CreateShipment />} />
+                    <Route path="*" element={<Navigate to={GENERAL_ROUTES.DASHBOARD} />} />
                 </Routes>
             </Content>
             <Footer style={{ textAlign: 'center' }}>

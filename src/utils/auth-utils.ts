@@ -25,6 +25,17 @@ export const isAuthenticated = async (): Promise<boolean> => {
     return token ? true : false;
 }
 
+export const isSessionAuthenticated = async (dispatch: DispatchType) => {
+    try {
+        const token = await getSessionToken() || '';
+        await initialData(token, dispatch);
+        return true;
+    } catch (e) {
+        console.log(e);
+        return false;
+    }
+}
+
 export const initialData = async (token: string, dispatch: DispatchType): Promise<void> => {
     try {
         const { first_name, last_name, type, user_id, email}: TokenData = await getTokenData(token);
