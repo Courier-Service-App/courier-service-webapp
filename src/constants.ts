@@ -1,5 +1,7 @@
 export const SHIPMENT_STATUS = {
-    INIT: 'INIT'
+    INIT: 'INIT',
+    SHIPPING: 'SHIPPING',
+    COMPLETE: 'COMPLETE'
 }
 
 export const USER_ROLES = {

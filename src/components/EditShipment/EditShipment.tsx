@@ -1,5 +1,6 @@
-import { Button, Form, Input, Modal } from 'antd';
+import { Button, Form, Input, Modal, Select } from 'antd';
 import { Shipment } from '../../types';
+import { SHIPMENT_STATUS } from '../../constants';
 
 type ViewShipmentProps = {
     shipment: Shipment,
@@ -40,7 +41,11 @@ export default function EditShipment({ shipment, open, onClose, onEdit }: ViewSh
                     <Input.TextArea />
                 </Form.Item>
                 <Form.Item name="status" label="Status" rules={[{ required: true }]}>
-                    <Input.TextArea />
+                    <Select>
+                        { Object.keys(SHIPMENT_STATUS).map((option: string) => (
+                            <Select.Option value={option}>{option}</Select.Option>
+                        ))}
+                    </Select>
                 </Form.Item>
                 <Form.Item>
                     <Button className='full-width' type="primary" htmlType="submit">Submit</Button>
