@@ -35,13 +35,11 @@ export const initialData = async (token: string, dispatch: DispatchType): Promis
             user_id,
             type           
         }
-        dispatch({ type: ACTIONS.LOADING, payload: false });
         dispatch({ type: ACTIONS.AUTHENTICATED, payload: true });
         dispatch({ type: ACTIONS.USER_SIGNED_IN, payload: user });
-        dispatch({ type: ACTIONS.ROLE, payload: type });        
-    }
-    catch (error: any) {
-        console.log(error);
-        throw error;
+        dispatch({ type: ACTIONS.ROLE, payload: type });
+    } 
+    finally {        
+        dispatch({ type: ACTIONS.LOADING, payload: false });
     }
 }

@@ -1,13 +1,13 @@
 import { Shipment } from '../../../types';
 import { getApi, putApi } from '../../../utils';
 
-type ShipmentResponse = {
+type ShipmentType = {
     shipments: Shipment[]
 }
 
 export const getAllShipments = async () => {
     try {
-        const { shipments } = await getApi<ShipmentResponse>(`/shipments/all-shipments`);
+        const { shipments } = await getApi<ShipmentType>(`/shipments/all-shipments`);
         return shipments;
     }
     catch (error: any) {
@@ -18,7 +18,7 @@ export const getAllShipments = async () => {
 
 export const editShipment = async (shipment: Shipment, shipmentId: string) => {
     try {
-        return await putApi<ShipmentResponse>(`/shipments/${shipmentId}`, shipment);
+        return await putApi<ShipmentType>(`/shipments/${shipmentId}`, shipment);
     }
     catch (error: any) {
         console.log(error);

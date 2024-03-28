@@ -14,14 +14,13 @@ type LoginProps = {
 
 export default function Login() {
     const [loading, setLoading] = useState<boolean>(false);
-    const { dispatch, authState } = useAuth();
+    const { dispatch } = useAuth();
     const navigate = useNavigate();
 
     const handleLogin = async ({ email, password }: LoginProps) => {
         setLoading(true);
         message.loading('Please wait...', 10);
-        const { isSignedIn, response } = await userSignIn(email, password, dispatch);
-        const { role } = authState;
+        const { isSignedIn, response, role } = await userSignIn(email, password, dispatch);
 
         if (isSignedIn) {
             message.destroy();

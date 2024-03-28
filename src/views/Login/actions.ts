@@ -5,11 +5,12 @@ import { LoginResponse } from '../../types';
 
 export const userSignIn = async (email: string, password: string, dispatch: DispatchType) => {
     try {
-        const { token } = await postApi<LoginResponse>('/authenticate', { email, password });
+        const { token, role } = await postApi<LoginResponse>('/authenticate', { email, password });
         await setSessionToken(token);
         await initialData(token, dispatch);
         return {
             response: 'Login success',
+            role,
             isSignedIn: true
         };
     }
@@ -18,6 +19,7 @@ export const userSignIn = async (email: string, password: string, dispatch: Disp
         message.destroy();
         return {
             response: error.message,
+            role: undefined,
             isSignedIn: false
         }
     }
@@ -25,14 +27,12 @@ export const userSignIn = async (email: string, password: string, dispatch: Disp
 
 export const userSignOut = async (dispatch: DispatchType): Promise<void> => {
     try {
-        await removeSessionToken();
-        dispatch({ type: ACTIONS.AUTHENTICATED, payload: false });
+        await removeSessionToken(); 
+    } 
+    finally {        
         dispatch({ type: ACTIONS.LOADING, payload: true });
+        dispatch({ type: ACTIONS.AUTHENTICATED, payload: false });
         dispatch({ type: ACTIONS.USER_SIGNED_IN, payload: undefined });
-        dispatch({ type: ACTIONS.ROLE, payload: undefined });  
-    }
-    catch (error: any) {
-        console.log(error);
-        throw error;
+        dispatch({ type: ACTIONS.ROLE, payload: undefined }); 
     }
 }

@@ -17,6 +17,7 @@ export type User = {
 
 export type LoginResponse = {
     token: string,
+    role: string,
     message?: string
 }
 
